@@ -16,7 +16,7 @@ public class Bill {
         for (Item it : items) {
             price = it.getPrice().add(price);
         }
-        return price.add(this.getTax());
+        return price;
     }
     
     public BigDecimal getTax() {

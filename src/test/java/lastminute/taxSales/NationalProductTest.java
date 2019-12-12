@@ -11,19 +11,23 @@ public class NationalProductTest {
     @Test
     public void givenExemptProductWhenThereIsValueGetPriceThenReturnsExpectedValue() {
         Product book = new NationalProduct("book", 12.49, true);
-        assertEquals(book.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(12.49));
-        assertEquals(book.getTax().setScale(0, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(0));
+        assertEquals(book.getPrice(), 
+                BigDecimal.valueOf(12.49)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP));
+        assertEquals(book.getTax(), 
+                BigDecimal.valueOf(0)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP));
     }
     
     @Test
     public void givenNonExemptProductWhenThereIsValueThenReturnsExpectedValue() {
-        Product book = new NationalProduct("book", 12.49, false);
-        assertEquals(book.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(13.74));
-        assertEquals(book.getTax().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(1.25));
+        Product perfume = new NationalProduct("perfume", 18.99, false);
+        assertEquals(perfume.getTax(), 
+                BigDecimal.valueOf(1.90)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP));
+        assertEquals(perfume.getPrice(), 
+                BigDecimal.valueOf(20.89)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP));
     }
     
     @Test

@@ -10,37 +10,53 @@ public class InternationalProductTest {
     
     @Test
     public void givenExemptProductWhenThereIsValueGetPriceThenReturnsExpectedValue() {
-        Product book = new InternationalProduct("book", 12.49, true);
-        assertEquals(book.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(13.11));
-        assertEquals(book.getTax().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(0.62));
+        Product chocolate = new InternationalProduct("box of chocolate", 10.00, true);
+        assertEquals(chocolate.getTax(), 
+                BigDecimal.valueOf(0.50)
+                    .setScale(2, BigDecimal.ROUND_UP));
+        assertEquals(chocolate.getPrice(), 
+                BigDecimal.valueOf(10.50)
+                    .setScale(2, BigDecimal.ROUND_UP));
+    }
+    
+    @Test
+    public void givenAnotherExemptProductWhenThereIsValueGetPriceThenReturnsExpectedValue() {
+        Product perfume = new InternationalProduct("imported bottle of perfume", 27.99, false);
+        assertEquals(perfume.getTax(), 
+                BigDecimal.valueOf(4.20)
+                    .setScale(2, BigDecimal.ROUND_UP));
+        assertEquals(perfume.getPrice(), 
+                BigDecimal.valueOf(32.19)
+                    .setScale(2, BigDecimal.ROUND_UP));
     }
     
     @Test
     public void givenNonExemptProductWhenThereIsValueThenReturnsExpectedValue() {
-        Product book = new InternationalProduct("book", 12.49, false);
-        assertEquals(book.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(14.36));
-        assertEquals(book.getTax().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(1.87));
+        Product perfume = new InternationalProduct("perfume", 47.50, false);
+        assertEquals(perfume.getTax(), 
+                BigDecimal.valueOf(7.15)
+                    .setScale(2, BigDecimal.ROUND_UP));
+        assertEquals(perfume.getPrice(), 
+                BigDecimal.valueOf(54.65)
+                    .setScale(2, BigDecimal.ROUND_UP));  
+       
     }
     
     @Test
     public void givenExemptProductWhenThereIsNoValueThenReturnsZero() {
-        Product book = new InternationalProduct("book", 0, true);
-        assertEquals(book.getPrice().setScale(0, BigDecimal.ROUND_HALF_UP), 
+        Product book = new InternationalProduct("box of chocolate", 0, true);
+        assertEquals(book.getPrice().setScale(0, BigDecimal.ROUND_UP), 
                 BigDecimal.valueOf(0));
-        assertEquals(book.getTax().setScale(0, BigDecimal.ROUND_HALF_UP), 
+        assertEquals(book.getTax().setScale(0, BigDecimal.ROUND_UP), 
                 BigDecimal.valueOf(0));
     }
     
     @Test
     public void givenNonExemptProductWhenThereIsNoValueThenReturnsZero() {
         Product book = new InternationalProduct("book", 0, false);
-        assertEquals(book.getPrice().setScale(0, BigDecimal.ROUND_HALF_UP), 
+        assertEquals(book.getPrice().setScale(0, BigDecimal.ROUND_UP), 
                 BigDecimal.valueOf(0));
-        assertEquals(book.getTax().setScale(0, BigDecimal.ROUND_HALF_UP), 
+        assertEquals(book.getTax().setScale(0, BigDecimal.ROUND_UP), 
                 BigDecimal.valueOf(0));
     }
 }

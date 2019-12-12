@@ -30,9 +30,18 @@ public class InternationalProduct implements Product {
     }
     
     public BigDecimal getTax() {
-        return this.value
-                .multiply(DUTY)
-                .add(this.value
-                        .multiply(this.basicTax));
+        BigDecimal percentage = InternationalProduct.DUTY
+                .add(this.basicTax);
+        
+        return this.round(this.value
+                .multiply(percentage)
+                .setScale(2, BigDecimal.ROUND_HALF_EVEN));
+    }
+    
+    private BigDecimal round (BigDecimal tax) {
+        return tax.multiply(BigDecimal.valueOf(20.0))
+            .setScale(0, BigDecimal.ROUND_UP)
+            .divide(BigDecimal.valueOf(20.0))
+            .setScale(2, BigDecimal.ROUND_UP);
     }
 }

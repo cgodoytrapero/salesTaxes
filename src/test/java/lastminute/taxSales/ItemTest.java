@@ -9,22 +9,27 @@ import org.junit.Test;
 public class ItemTest {
     @Test
     public void givenExemptInternationalProductWhenThereIsValueGetPriceThenReturnsExpectedValue() {
-        Product book = new InternationalProduct("book", 12.49, true);
+        Product book = new InternationalProduct("chocolate", 11.25, true);
         Item item = new Item(book, 10);
+       
+        assertEquals(item.getTax(), 
+                BigDecimal.valueOf(6.00)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP));
         assertEquals(item.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(131.15));
-        assertEquals(item.getTax().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(6.25));
+                BigDecimal.valueOf(118.50)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP));
     }
     
     @Test
     public void givenNonExemptInternationalProductWhenThereIsValueThenReturnsExpectedValue() {
-        Product book = new InternationalProduct("book", 12.49, false);
-        Item item = new Item(book, 10);
-        assertEquals(item.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(143.64));
-        assertEquals(item.getTax().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(18.74));
+        Product perfume = new InternationalProduct("perfume", 47.50, false);
+        Item item = new Item(perfume, 10);
+        assertEquals(item.getTax(), 
+                BigDecimal.valueOf(71.50)
+                    .setScale(2, BigDecimal.ROUND_UP));
+        assertEquals(item.getPrice(), 
+                BigDecimal.valueOf(546.50)
+                    .setScale(2, BigDecimal.ROUND_UP));
     }
     
     
@@ -40,12 +45,15 @@ public class ItemTest {
     
     @Test
     public void givenNonExemptNationalProductWhenThereIsValueThenReturnsExpectedValue() {
-        Product book = new NationalProduct("book", 12.49, false);
-        Item item = new Item(book, 10);
-        assertEquals(item.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(137.39));
-        assertEquals(item.getTax().setScale(2, BigDecimal.ROUND_HALF_UP), 
-                BigDecimal.valueOf(12.49));
+        Product cd = new NationalProduct("cd", 14.99, false);
+        Item item = new Item(cd, 10);
+        
+        assertEquals(item.getTax(), 
+                BigDecimal.valueOf(15.00)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP));
+        assertEquals(item.getPrice(), 
+                BigDecimal.valueOf(164.90)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP));
     }
     
     @Test
