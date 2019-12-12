@@ -5,28 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bill {
-    private List<Item> items = new ArrayList<Item>();
+    private List<Product> items = new ArrayList<Product>();
     
-    public void add (Item item) {
+    public void add (Product item) {
         items.add(item);
     }
     
-    public BigDecimal getPrice() {
+    public BigDecimal price() {
         BigDecimal price = new BigDecimal(0);
-        for (Item it : items) {
-            price = it.getPrice().add(price);
+        for (Product it : items) {
+            price = it.price().add(price);
         }
         return price;
     }
     
-    public BigDecimal getTax() {
+    public BigDecimal tax() {
         BigDecimal tax = new BigDecimal(0);
-        for (Item it : items) {
-            tax = it.getTax().add(tax);
+        for (Product it : items) {
+            tax = it.tax().add(tax);
         }
         return tax;
     } 
-    
-    
-
 }

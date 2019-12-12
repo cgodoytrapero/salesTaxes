@@ -11,23 +11,26 @@ public class BillTest {
     @Test
     public void givenInput1WhenGetPriceAndTaxThenReturnsExpectedValue() {
         
-        Product book = new NationalProduct("book", 12.49, true);
-        Item bookItem = new Item(book, 1);
-        Product cd = new NationalProduct("music CD", 14.99, false);
-        Item cdItem = new Item(cd, 1); 
-        Product chocolate = new NationalProduct("chocolate bar", 0.85, true);
-        Item chocolateItem = new Item(chocolate, 1);
+        Product book = new ExemptProduct("book", 
+                BigDecimal.valueOf(12.49),
+                1);
+        Product cd = new NonExemptProduct("music CD", 
+                BigDecimal.valueOf(14.99), 
+                1);
+        Product chocolate = new ExemptProduct("chocolate bar", 
+                BigDecimal.valueOf(0.85), 
+                1);
 
         Bill bill = new Bill();
-        bill.add(bookItem);
-        bill.add(cdItem);
-        bill.add(chocolateItem);
+        bill.add(book);
+        bill.add(cd);
+        bill.add(chocolate);
         
-        assertEquals(bill.getTax(), 
+        assertEquals(bill.tax(), 
                 BigDecimal.valueOf(1.50)
                     .setScale(2, BigDecimal.ROUND_HALF_EVEN));
         
-        assertEquals(bill.getPrice(), 
+        assertEquals(bill.price(), 
                 BigDecimal.valueOf(29.83)
                     .setScale(2, BigDecimal.ROUND_HALF_EVEN));
     }
@@ -35,21 +38,25 @@ public class BillTest {
     @Test
     public void givenInput2WhenGetPriceAndTaxThenReturnsExpectedValue() {
         
-        Product chocolate = new InternationalProduct("imported box of chocolates", 10.00, true);
-        Item chocolateItem = new Item(chocolate, 1);
+        Product chocolate = new ExemptProduct("imported box of chocolates", 
+                BigDecimal.valueOf(10.00),
+                1);
+        ImportedProduct importedChocolate = new ImportedProduct(chocolate);
         
-        Product perfume = new InternationalProduct("imported bottle of perfume", 47.50, false);
-        Item perfumeItem = new Item(perfume, 1);
+        Product perfume = new NonExemptProduct("imported bottle of perfume", 
+                BigDecimal.valueOf(47.50), 
+                1);
+        ImportedProduct importedPerfume = new ImportedProduct(perfume);
         
         Bill bill = new Bill();
-        bill.add(chocolateItem);
-        bill.add(perfumeItem);
+        bill.add(importedChocolate);
+        bill.add(importedPerfume);
         
-        assertEquals(bill.getTax(), 
+        assertEquals(bill.tax(), 
                 BigDecimal.valueOf(7.65)
                     .setScale(2, BigDecimal.ROUND_HALF_EVEN));
         
-        assertEquals(bill.getPrice(), 
+        assertEquals(bill.price(), 
                 BigDecimal.valueOf(65.15)
                     .setScale(2, BigDecimal.ROUND_HALF_EVEN));
     }
@@ -57,29 +64,36 @@ public class BillTest {
     @Test
     public void givenInput3WhenGetPriceAndTaxThenReturnsExpectedValue() {
         
-        Product imported_perfume = new InternationalProduct("imported bottle of perfume", 27.99, false);
-        Item perfumeImportedItem = new Item(imported_perfume, 1);
+        Product bottle_perfume = new NonExemptProduct("imported bottle of perfume", 
+                BigDecimal.valueOf(27.99), 
+                1);
+        ImportedProduct importedPerfume = new ImportedProduct(bottle_perfume);
         
-        Product perfume = new NationalProduct("bottle of perfume", 18.99, false);
-        Item perfumeItem = new Item(perfume, 1);
+        Product perfume = new NonExemptProduct("bottle of perfume", 
+                BigDecimal.valueOf(18.99), 
+                1);
         
-        Product pills = new NationalProduct("packet of headache pills", 9.75, true);
-        Item pillsItem = new Item(pills, 1);
+        Product pills = new ExemptProduct("packet of headache pills", 
+                BigDecimal.valueOf(9.75), 
+                1);
         
-        Product chocolate = new InternationalProduct("imported box of chocolate", 11.25, true);
-        Item chocolateItem = new Item(chocolate, 1);
+        Product chocolate = new ExemptProduct("imported box of chocolate", 
+                BigDecimal.valueOf(11.25), 
+                1);
+        ImportedProduct importedChocolate = new ImportedProduct(chocolate);
+
         
         Bill bill = new Bill();
-        bill.add(perfumeImportedItem);
-        bill.add(perfumeItem);
-        bill.add(pillsItem);
-        bill.add(chocolateItem);
+        bill.add(importedPerfume);
+        bill.add(perfume);
+        bill.add(pills);
+        bill.add(importedChocolate);
         
-        assertEquals(bill.getTax(), 
+        assertEquals(bill.tax(), 
                 BigDecimal.valueOf(6.70)
                     .setScale(2, BigDecimal.ROUND_HALF_EVEN));
         
-        assertEquals(bill.getPrice(), 
+        assertEquals(bill.price(), 
                 BigDecimal.valueOf(74.68)
                     .setScale(2, BigDecimal.ROUND_HALF_EVEN));
     }
