@@ -13,14 +13,6 @@ public class Decimal {
         this.value = new BigDecimal(value);
     }
     
-//    public Decimal(Decimal other) {
-//        this.value = other.getValue();
-//    }
-//    
-//    public Decimal() {
-//        this.value = new BigDecimal(0);
-//    }
-    
     public BigDecimal getValue() {
         return this.value;
     }
