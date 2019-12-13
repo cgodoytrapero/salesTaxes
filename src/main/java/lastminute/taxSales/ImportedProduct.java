@@ -1,7 +1,5 @@
 package lastminute.taxSales;
 
-import java.math.BigDecimal;
-
 public class ImportedProduct extends Product{
     private static final double RATE = 0.05;
     
@@ -9,15 +7,20 @@ public class ImportedProduct extends Product{
         super(product.getName(),
                 product.getValue(), 
                 product.getItems());
-        this.setCharges(new BigDecimal(RATE)
-                .add(product.getCharges()));
+        Decimal charges = this.getCharges();
+        Decimal rate = new Decimal(RATE);
+        charges.add(rate);
+        charges.add(product.getCharges());
+        this.setCharges(charges);
     }
 
     @Override
-    public BigDecimal getTax() {
-        return this.round(this.getValue()
-                .multiply(this.getCharges()
-                .setScale(2, BigDecimal.ROUND_HALF_UP)));
+    public Decimal getTax() {
+        Decimal tax = new Decimal(0); 
+        tax.add(this.getValue());
+        tax.multiply(this.getCharges());
+        tax.round();
+        return tax;
     }
     
 

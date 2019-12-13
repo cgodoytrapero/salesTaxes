@@ -2,8 +2,6 @@ package lastminute.taxSales;
 
 import static org.junit.Assert.assertEquals;
 
-import java.math.BigDecimal;
-
 import org.junit.Test;
 
 public class ExemptProductTest {
@@ -11,43 +9,28 @@ public class ExemptProductTest {
     @Test
     public void givenExemptProductWhenThereIsValueGetPriceThenReturnsExpectedValue() {
         Product book = new ExemptProduct("book", 
-                BigDecimal.valueOf(12.49), 
+                new Decimal(12.49), 
                 1);
-        
-        assertEquals(book.price(), 
-                BigDecimal.valueOf(12.49)
-                    .setScale(2, BigDecimal.ROUND_HALF_UP));
-        assertEquals(book.tax(), 
-                BigDecimal.valueOf(0)
-                    .setScale(2, BigDecimal.ROUND_HALF_UP));
+        assertEquals(book.tax().getDouble(), 0.0, 0.001);
+        assertEquals(book.price().getDouble(), 12.49, 0.001);
     }
 
     @Test
     public void givenExemptProductWhenThereIsNoValueThenReturnsZero() {
         Product book = new ExemptProduct("book",
-                BigDecimal.valueOf(0), 
+                new Decimal(0), 
                 1);
-        
-        assertEquals(book.price(), 
-                BigDecimal.valueOf(0)
-                .setScale(2, BigDecimal.ROUND_HALF_UP));
-        assertEquals(book.tax(), 
-                BigDecimal.valueOf(0)
-                .setScale(2, BigDecimal.ROUND_HALF_UP));
+        assertEquals(book.tax().getDouble(), 0.0, 0.001);
+        assertEquals(book.price().getDouble(), 0.0, 0.001);
     }
     
     @Test
     public void givenExemptProductWhenThereIsMoreThanOneItemThenReturnsExpectedValue() {
         Product book = new ExemptProduct("book", 
-                BigDecimal.valueOf(12.49),
+                new Decimal(12.49),
                 10);
         
-        assertEquals(book.tax(), 
-                BigDecimal.valueOf(0)
-                    .setScale(2, BigDecimal.ROUND_HALF_UP));
-        assertEquals(book.price(), 
-                BigDecimal.valueOf(124.90)
-                    .setScale(2, BigDecimal.ROUND_HALF_UP));
-
+        assertEquals(book.tax().getDouble(), 0.0, 0.001);
+        assertEquals(book.price().getDouble(), 124.90, 0.001);
     }
 }

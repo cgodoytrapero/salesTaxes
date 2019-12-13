@@ -1,57 +1,52 @@
 package lastminute.taxSales;
 
-import java.math.BigDecimal;
-
 public abstract class Product {
     private String name;
-    private BigDecimal value;
-    private int items;
-    private BigDecimal charges;
+    private Decimal value;
+    private Decimal items;
+    private Decimal charges;
     
     public Product (String name,
-            BigDecimal value,
+            Decimal value,
             int items) {
         this.name = name;
         this.value = value;
-        this.items = items;
+        this.items = new Decimal(items);
+        this.charges = new Decimal(0);
     }
     
     public String getName() {
         return this.name;
     }
     
-    public BigDecimal getValue() {
+    public Decimal getValue() {
         return value;
     }
 
     public int getItems() {
-        return items;
+        return items.getInt();
     }
     
-    public void setCharges(BigDecimal charges) {
+    public void setCharges(Decimal charges) {
         this.charges = charges;
     }
     
-    public BigDecimal getCharges() {
+    public Decimal getCharges() {
         return this.charges;
     }
     
-    public BigDecimal price() {
-        return this.value.add(this.getTax())
-                .multiply(BigDecimal.valueOf(items));
+    public Decimal price() {
+        Decimal price = this.getTax();
+        price.add(this.value);
+        price.multiply(items);
+        return price;
     }
     
-    public BigDecimal tax() {
-        return this.getTax()
-                .multiply(BigDecimal.valueOf(items));
+    public Decimal tax() {
+        Decimal taxes = this.getTax();
+        taxes.multiply(this.items);
+        return taxes;
     }
     
-    protected BigDecimal round (BigDecimal tax) {
-        return tax.multiply(BigDecimal.valueOf(20.0))
-            .setScale(0, BigDecimal.ROUND_UP)
-            .divide(BigDecimal.valueOf(20.0))
-            .setScale(2, BigDecimal.ROUND_UP);
-    }
-    
-    protected abstract BigDecimal getTax();
+    protected abstract Decimal getTax();
 }

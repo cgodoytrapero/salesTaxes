@@ -1,22 +1,23 @@
 package lastminute.taxSales;
 
-import java.math.BigDecimal;
-
 public class ExemptProduct extends Product {
     private static final double RATE = 0.0;
     
     public ExemptProduct(String name,
-            BigDecimal value,
+            Decimal value,
             int items) {
         super(name, value, items);
-        this.setCharges(new BigDecimal(RATE));
+        Decimal rate = new Decimal(RATE);
+        this.setCharges(rate);
     }
 
     @Override
-    public BigDecimal getTax() {
-        return this.round(this.getValue()
-                .multiply(this.getCharges()
-                .setScale(2, BigDecimal.ROUND_HALF_UP)));
+    public Decimal getTax() {
+        Decimal tax = new Decimal(0); 
+        tax.add(this.getValue());
+        tax.multiply(this.getCharges());
+        tax.round();
+        return tax;
     }
 
     

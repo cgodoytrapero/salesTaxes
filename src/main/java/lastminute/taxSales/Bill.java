@@ -1,6 +1,5 @@
 package lastminute.taxSales;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,18 +10,18 @@ public class Bill {
         items.add(item);
     }
     
-    public BigDecimal price() {
-        BigDecimal price = new BigDecimal(0);
+    public Decimal price() {
+        Decimal price = new Decimal(0);
         for (Product it : items) {
-            price = it.price().add(price);
+            price.add(it.price());
         }
         return price;
     }
     
-    public BigDecimal tax() {
-        BigDecimal tax = new BigDecimal(0);
+    public Decimal tax() {
+        Decimal tax = new Decimal(0);
         for (Product it : items) {
-            tax = it.tax().add(tax);
+            tax.add(it.tax());
         }
         return tax;
     } 
