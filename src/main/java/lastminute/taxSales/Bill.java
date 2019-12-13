@@ -11,18 +11,16 @@ public class Bill {
     }
     
     public Decimal price() {
-        Decimal price = new Decimal(0);
-        for (Product it : items) {
-            price.add(it.price());
-        }
+        Decimal price = items.stream()
+                .map(p->p.price())
+                .reduce(new Decimal(0), Decimal::accumulate);
         return price;
     }
     
     public Decimal tax() {
-        Decimal tax = new Decimal(0);
-        for (Product it : items) {
-            tax.add(it.tax());
-        }
+        Decimal tax = items.stream()
+                .map(p->p.tax())
+                .reduce(new Decimal(0), Decimal::accumulate);
         return tax;
     } 
 }

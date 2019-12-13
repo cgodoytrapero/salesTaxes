@@ -40,5 +40,10 @@ public class Decimal {
     public void add(Decimal other) {
         this.value = this.value.add(other.getValue());
     }
+    
+    public Decimal accumulate(Decimal other) {
+        this.add(other);
+        return this;
+    }
 
 }
