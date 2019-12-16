@@ -45,5 +45,8 @@ public class Decimal {
         this.add(other);
         return this;
     }
-
+    
+    public String toString() {
+        return value.toString();
+    }
 }

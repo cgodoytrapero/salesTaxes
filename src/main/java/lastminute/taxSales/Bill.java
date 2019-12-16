@@ -10,6 +10,10 @@ public class Bill {
         items.add(item);
     }
     
+    public List<Product> getItems() {
+        return this.items;
+    }
+    
     public Decimal price() {
         Decimal price = items.stream()
                 .map(p->p.price())

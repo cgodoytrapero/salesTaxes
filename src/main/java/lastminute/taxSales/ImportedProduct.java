@@ -2,7 +2,7 @@ package lastminute.taxSales;
 
 public class ImportedProduct extends Product{
     private static final double RATE = 0.05;
-    
+        
     public ImportedProduct(Product product) {
         super(product.getName(),
                 product.getValue(), 
